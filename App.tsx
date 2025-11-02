@@ -1,6 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
-import { Button, FlatList, Image, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  Button,
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 export default function App() {
   const [bookList, setBookList] = useState([]);
@@ -24,12 +32,23 @@ export default function App() {
       console.log(error);
     }
   };
+  const deleteBookByID = async () => {
+    try {
+      const response = await axios.delete(`${bookData}/1`);
+      console.log(JSON.stringify(response.data, null, 3));
+
+      Alert.alert("Book deleted Successfully");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={{ margin: 50 }}>
         <Text>Hi there</Text>
         <Button title="Get All the Books" onPress={getListOfBooks} />
         <Button title="Get Book by its ID" onPress={getBookByID} />
+        <Button title="Delete the Book by ID" onPress={deleteBookByID} />
         <View style={{ margin: 50 }}>
           {getAll && (
             <FlatList
