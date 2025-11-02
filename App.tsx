@@ -1,18 +1,39 @@
 import axios from "axios";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import { Button, FlatList, Image, StyleSheet, Text, View } from "react-native";
 
 export default function App() {
-  const endPointURL = "https://69072138b1879c890ed8e1f4.mockapi.io/books";
-
+  const [bookList, setBookList] = useState([]);
+  const bookData = "https://69072138b1879c890ed8e1f4.mockapi.io/books";
   const getListOfBooks = async () => {
-    const response = await axios.get(endPointURL);
-    console.log(JSON.stringify(response.data, null, 3));
+    try {
+      const response = await axios.get(bookData);
+      console.log(JSON.stringify(response.data, null, 3));
+      setBookList(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
-
   return (
     <View style={styles.container}>
-      <Text>Lets create a booking app baby</Text>
-      <Button title="Get list of books" onPress={getListOfBooks} />
+      <Text>Hi there</Text>
+      <Button title="Get All the Books" onPress={getListOfBooks} />
+      <View style={{ margin: 50 }}>
+        <FlatList
+          data={bookList}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View>
+              <Image
+                style={{ height: 150, width: 200 }}
+                source={{ uri: item.cover }}
+              />
+              <Text>{item.name_of_author}</Text>
+              <Text>Rs {item.price_of_book}</Text>
+            </View>
+          )}
+        />
+      </View>
     </View>
   );
 }
@@ -20,8 +41,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
     justifyContent: "center",
+    alignContent: "center",
+    backgroundColor: "tomato",
+    alignItems: "center",
   },
 });
