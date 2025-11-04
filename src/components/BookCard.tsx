@@ -2,20 +2,22 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import { FC } from "react";
 
-const BookCard = () => {
+interface BookCardProps {
+  title: String;
+  price: String;
+  author: String;
+  image: { uri: string };
+}
+const BookCard: FC<BookCardProps> = ({ title, price, author, image }) => {
   return (
     <View style={styles.container}>
-      <Image
-        source={{
-          uri: "https://m.media-amazon.com/images/I/61rFpYUhzzL._AC_UF1000,1000_QL80_.jpg",
-        }}
-        style={styles.cover}
-      />
+      <Image source={image} style={styles.cover} />
       <View style={styles.bookDetails}>
-        <Text>Soul Tiles</Text>
-        <Text>Darren Johns</Text>
-        <Text>Rs 850</Text>
+        <Text>{title}</Text>
+        <Text>{author}</Text>
+        <Text>Rs {price}</Text>
       </View>
       <View style={styles.functionalContainer}>
         <TouchableOpacity style={styles.buttons}>
