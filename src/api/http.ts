@@ -6,43 +6,51 @@ import { Alert } from "react-native";
   const [getAll, setGetAll] = useState(false);
   const bookData = "https://69072138b1879c890ed8e1f4.mockapi.io/books";
 
-  const getListOfBooks = async () => {
+  const getListOfBooks = async ({onSuccess, onError}) => {
     try {
       Alert.alert("Fetching book list...");
       const response = await axios.get(bookData);
       console.log(JSON.stringify(response.data, null, 3));
       setBookList(response.data);
       setGetAll(!getAll);
+      onSuccess && onSuccess(response.data)
     } catch (error) {
+      onError && onError(error)
       console.log("Error fetching books:", error);
     }
   };
 
-  const getBookByID = async () => {
+  const getBookByID = async ({onSuccess, onError}) => {
     try {
       const response = await axios.get(`${bookData}/4`);
       console.log(JSON.stringify(response.data, null, 3));
+      onSuccess && onSuccess(response.data)
     } catch (error) {
       console.log(error);
+      onError && onError(error)
     }
   };
 
-  const deleteBookByID = async () => {
+  const deleteBookByID = async ({onSuccess, onError}) => {
     try {
-      await axios.delete(`${bookData}/11`);
+      const response = await axios.delete(`${bookData}/11`);
       Alert.alert("Book deleted successfully");
+       onSuccess && onSuccess(response.data)
     } catch (error) {
       console.log(error);
+      onError && onError(error)
     }
   };
 
-  const updateBookByID = async () => {
+  const updateBookByID = async ({onSuccess, onError}) => {
     try {
-      await axios.put(`${bookData}/2`, body);
+      const response = await axios.put(`${bookData}/2`, body);
       Alert.alert("Book Updated Successfully");
-      getListOfBooks();
+       onSuccess && onSuccess(response.data)
+          onSuccess && onSuccess(response.data)
     } catch (error) {
       console.log(error);
+      onError && onError(error)
     }
   };
 
