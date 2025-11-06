@@ -1,34 +1,26 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import BookCard from "../components/BookCard";
+import useBooks from "../api/useBooks";
 
 const HomeScreen = () => {
+  const { bookList, getListOfBooks } = useBooks();
+
+  useEffect(() => {
+    getListOfBooks();
+  }, []);
+
   return (
     <ScrollView style={styles.container}>
-      <BookCard
-        title={"sallu"}
-        price={50}
-        author={"bhaiya"}
-        image={{
-          uri: "https://m.media-amazon.com/images/I/61rFpYUhzzL._AC_UF1000,1000_QL80_.jpg",
-        }}
-      />
-      <BookCard
-        title={"kallu"}
-        price={60}
-        author={"hayya"}
-        image={{
-          uri: "https://m.media-amazon.com/images/I/61rFpYUhzzL._AC_UF1000,1000_QL80_.jpg",
-        }}
-      />
-      <BookCard
-        title={"hallu"}
-        price={70}
-        author={"sayya"}
-        image={{
-          uri: "https://m.media-amazon.com/images/I/61rFpYUhzzL._AC_UF1000,1000_QL80_.jpg",
-        }}
-      />
+      {bookList.map((book) => (
+        <BookCard
+          key={book.id}
+          title={book.name_of_author}
+          price={book.price_of_book}
+          author={book.email_of_seller}
+          image={{ uri: book.cover }}
+        />
+      ))}
     </ScrollView>
   );
 };
