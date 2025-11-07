@@ -2,10 +2,11 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React, { useEffect } from "react";
 import BookCard from "../components/BookCard";
 import useBooks from "../api/useBooks";
+import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen = () => {
   const { bookList, getListOfBooks } = useBooks();
-
+  const navigation = useNavigation();
   useEffect(() => {
     getListOfBooks();
   }, []);
@@ -19,6 +20,7 @@ const HomeScreen = () => {
           price={book.price_of_book}
           author={book.email_of_seller}
           image={{ uri: book.cover }}
+          onEdit={() => navigation.navigate("EditBook", { id: book.id })}
         />
       ))}
     </ScrollView>
